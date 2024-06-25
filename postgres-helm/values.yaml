@@ -1,0 +1,20 @@
+appName: "postgres"
+image:
+  repository: postgis/postgis
+  tag: "16-3.4"
+  pullPolicy: IfNotPresent
+
+postgres:
+  user: "admin"
+  password: "pass123"
+  db: "db"
+  port: 5432
+
+service:
+  type: "ClusterIP"
+  port: 5432
+
+healthcheck:
+  interval: 5
+  timeout: 5
+  retries: 5

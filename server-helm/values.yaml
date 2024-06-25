@@ -1,0 +1,15 @@
+appName: "postgrest"
+image:
+  repository: postgrest/postgrest
+  tag: "v12.0.2"
+  pullPolicy: IfNotPresent
+
+postgrest:
+  dbUri: "postgres://admin:pass123@postgres:5432/db"
+  openApiServerProxyUri: "http://127.0.0.1:3000"
+  dbAnonRole: "admin"
+  port: 3000
+
+service:
+  type: ClusterIP
+  port: 3000

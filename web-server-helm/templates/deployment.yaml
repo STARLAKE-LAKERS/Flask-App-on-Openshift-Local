@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-server-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: {{ .Values.webserver.port }}
+          env:
+            - name: FLASK_APP
+              value: {{ .Values.webserver.flaskApp }}
+            - name: FLASK_RUN_HOST
+              value: {{ .Values.webserver.flaskRunHost }}
+            - name: DB_USER
+              value: {{ .Values.webserver.dbUser }}
+            - name: DB_PASS
+              value: {{ .Values.webserver.dbPass }}
+            - name: DB_HOST
+              value: {{ .Values.webserver.dbHost }}
+            - name: DB_PORT
+              value: "{{ .Values.webserver.dbPort }}"
+            - name: DB_NAME
+              value: {{ .Values.webserver.dbName }}
+            # - name: SOURCE_TABLE_NAMES
+            #   value: {{ .Values.webserver.sourceTableNames }}
+            - name: TOI_DELIMITER
+              value: {{ .Values.webserver.toiDelimiter }}
+            - name: TILE_SERVER_URL
+              value: {{ .Values.webserver.tileServerUrl }}
+            - name: TABLE_PREFIX
+              value: {{ .Values.webserver.tablePrefix }}
+            - name: VESSELS_LAST_LOCATION
+              value: {{ .Values.webserver.vesselsLastLocation }}
+            - name: MAP_URL
+              value: {{ .Values.webserver.mapUrl }}
+            - name: POSTGREST_API
+              value: {{ .Values.webserver.postgrestApi }}
+      restartPolicy: Always

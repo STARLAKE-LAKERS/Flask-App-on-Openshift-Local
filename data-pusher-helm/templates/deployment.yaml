@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-pusher-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}
+          image: {{ .Values.image.repository }}
+          ports:
+            - containerPort: {{ .Values.containerPort }}
+          env:
+            - name: DB_HOST
+              value: {{ .Values.database.host }}
+            - name: DB_PORT
+              value: "{{ .Values.database.port }}"
+            - name: DB_NAME
+              value: {{ .Values.database.name }}
+            - name: DB_USER
+              value: {{ .Values.database.user }}
+            - name: DB_PASSWORD
+              value: {{ .Values.database.password }}
+            - name: DELAY_RANGE
+              value: {{ .Values.application.delay_range }}
+            - name: TABLE_NAME
+              value: {{ .Values.application.table }}
+            - name: CSV_FILE
+              value: {{ .Values.application.csvFile }}
+          volumeMounts:
+            - name: csv-volume
+              mountPath: {{ .Values.volumes.csvFile }}
+            - name: data-sources-volume
+              mountPath: {{ .Values.volumes.dataSources }}
+            - name: script-file-volume
+              mountPath: {{ .Values.volumes.scriptFile }}
+      volumes:
+        - name: csv-volume
+          hostPath:
+            path: {{ .Values.volumes.csvFile }}
+        - name: data-sources-volume
+          hostPath:
+            path: {{ .Values.volumes.dataSources }}
+        - name: script-file-volume
+          hostPath:
+            path: {{ .Values.volumes.scriptFile }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-pusher-service
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.containerPort }}
+  selector:
+    app: {{ .Values.appName }}

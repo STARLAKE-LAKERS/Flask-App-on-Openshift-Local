@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgrest-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: {{ .Values.postgrest.port }}
+          env:
+            - name: PGRST_DB_URI
+              value: {{ .Values.postgrest.dbUri }}
+            - name: PGRST_OPENAPI_SERVER_PROXY_URI
+              value: {{ .Values.postgrest.openApiServerProxyUri }}
+            - name: PGRST_DB_ANON_ROLE
+              value: {{ .Values.postgrest.dbAnonRole }}
+      restartPolicy: Always

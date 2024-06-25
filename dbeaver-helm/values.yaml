@@ -1,0 +1,16 @@
+appName: "dbeaver"
+image:
+  repository: dbeaver/cloudbeaver
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+dbeaver:
+  port: 8978
+  dbeaverHome: "/opt/dbeaver"
+
+volumes:
+  dbeaverData: /root/.dbeaver4
+
+service:
+  type: ClusterIP
+  port: 8978

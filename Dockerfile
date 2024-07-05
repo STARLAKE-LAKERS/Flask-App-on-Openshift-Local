@@ -1,19 +1,17 @@
-# start by pulling the python image
-FROM python:3.8-alpine
+FROM python:3.8-slim
 
-# copy the requirements file into the image
-COPY ./requirements.txt /app/requirements.txt
-
-# switch working directory
+# Set the working directory
 WORKDIR /app
 
-# install the dependencies and packages in the requirements file
+# Install dependencies
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-# copy every content from the local file to the image
-COPY . /app
+# Copy the application code
+COPY . .
 
-# configure the container to run in an executed manner
-ENTRYPOINT [ "python" ]
+# Expose the application's port
+EXPOSE 8000
 
-CMD ["main.py" ]
+# Command to run the application with Gunicorn
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "main:app"]

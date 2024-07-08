@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
+import os
 
 db = SQLAlchemy()
 
@@ -9,7 +10,9 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres-db:plschangeme@svc-postgres-headless:5432/postgres-db'
+    user = os.environ.get('PG_USER')
+    password = os.environ.get('PG_PASSWORD')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://' + user + ':' + password + '@svc-postgres-headless:5432/postgres-db'
     db.init_app(app)
 
     from .views import views

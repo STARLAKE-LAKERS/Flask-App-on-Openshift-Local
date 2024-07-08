@@ -28,7 +28,14 @@ spec:
             - name: PG_DATABASE
               value: "{{ .Values.database.name }}"
             - name: PG_USER
-              value: "{{ .Values.database.user }}"
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: username
             - name: PG_PASSWORD
-              value: "{{ .Values.database.password }}"
+              valueFrom:
+                secretKeyRef:
+                  name: my-secret
+                  key: password
+
 

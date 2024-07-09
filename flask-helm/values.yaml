@@ -1,0 +1,23 @@
+# values.yaml
+appName: "simple-flask-app"
+# Database configuration
+database:
+  host: "svc-postgres-headless"
+  port: 5432
+  name: "postgres-db"
+
+
+#################### Create Service ####################
+
+service:
+  type: ClusterIP
+  port: 80
+
+# Kubernetes Deployment configuration
+image:
+  repository: gyeowj/flask_app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+containerPort: 8000

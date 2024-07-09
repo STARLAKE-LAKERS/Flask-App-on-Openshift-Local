@@ -4,7 +4,9 @@ Based off of techwithtim's Flask-Web-App-Tutorial
 
 ## Setup & Installation
 
+
 For a more comprehensive guide visit this Google Doc https://docs.google.com/document/d/18uC2K_3djwtpqNTfefchUuhVx6Jz3kMIPUqPEPjTQqU/edit?usp=sharing
+
 
 Install crc and oc from Openshift Local Console.
 

@@ -17,7 +17,7 @@ service:
 image:
   repository: gyeowj/flask_app
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 replicaCount: 1
 containerPort: 8000
